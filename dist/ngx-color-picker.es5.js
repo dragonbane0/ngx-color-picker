@@ -1872,12 +1872,12 @@ var ColorPickerComponent = /** @class */ (function () {
                 var winHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
                 /** @type {?} */
                 var usePositionX = 'right';
-                if (this.left + this.cpWidth > winWidth) {
+                if ((this.left + boxDirective.width + this.dialogArrowSize - 2) + this.cpWidth > winWidth) {
                     usePositionX = 'left';
                 }
                 /** @type {?} */
                 var usePositionY = 'bottom';
-                if (this.top + dialogHeight > winHeight) {
+                if ((this.top + boxDirective.height * this.cpPositionOffset / 100) + dialogHeight > winHeight) {
                     usePositionY = 'top';
                 }
                 usePosition = usePositionX + '-' + usePositionY;
