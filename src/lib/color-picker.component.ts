@@ -917,7 +917,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
 
       const dialogHeight = this.dialogElement.nativeElement.offsetHeight;
 
-      while (node !== null && node.tagName !== 'HTML') {
+      while (node !== null && node.tagName !== 'HTML' && node.nodeType != 11) { //Stop when encountering a DocumentFragment, such as Shadow Roots, as they don't have a parent
         style = window.getComputedStyle(node);
         position = style.getPropertyValue('position');
         transform = style.getPropertyValue('transform');
