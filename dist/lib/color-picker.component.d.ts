@@ -53,6 +53,7 @@ export declare class ColorPickerComponent implements OnInit, OnDestroy, AfterVie
     cpSaveClickOutside: boolean;
     cpCloseClickOutside: boolean;
     cpPosition: string;
+    cpUsePosition: string;
     cpPositionOffset: number;
     cpOKButton: boolean;
     cpOKButtonText: string;
