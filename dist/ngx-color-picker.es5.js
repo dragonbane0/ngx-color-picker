@@ -1873,12 +1873,22 @@ var ColorPickerComponent = /** @class */ (function () {
                 /** @type {?} */
                 var usePositionX = 'right';
                 if ((this.left + boxDirective.width + this.dialogArrowSize - 2) + this.cpWidth > winWidth) {
-                    usePositionX = 'left';
+                    if ((this.left - this.cpWidth + this.dialogArrowSize - 2) < 0) {
+                        this.left -= ((this.left + boxDirective.width + this.dialogArrowSize - 2) + this.cpWidth) - winWidth;
+                    }
+                    else {
+                        usePositionX = 'left';
+                    }
                 }
                 /** @type {?} */
                 var usePositionY = 'bottom';
                 if ((this.top + boxDirective.height * this.cpPositionOffset / 100) + dialogHeight > winHeight) {
-                    usePositionY = 'top';
+                    if ((this.top - dialogHeight - boxDirective.height + boxDirective.height * this.cpPositionOffset / 100) < 0) {
+                        this.top -= ((this.top + boxDirective.height * this.cpPositionOffset / 100) + dialogHeight) - winHeight;
+                    }
+                    else {
+                        usePositionY = 'top';
+                    }
                 }
                 usePosition = usePositionX + '-' + usePositionY;
             }
