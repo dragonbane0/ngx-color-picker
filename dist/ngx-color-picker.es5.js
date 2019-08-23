@@ -1849,7 +1849,9 @@ var ColorPickerComponent = /** @class */ (function () {
             if (this.useRootViewContainer || (position === 'fixed' &&
                 (!parentNode || parentNode instanceof HTMLUnknownElement))) {
                 this.top = boxDirective.top;
+                this.offsetTop = boxDirective.topOffset;
                 this.left = boxDirective.left;
+                this.offsetLeft = boxDirective.leftOffset;
             }
             else {
                 if (parentNode === null) {
@@ -1858,7 +1860,9 @@ var ColorPickerComponent = /** @class */ (function () {
                 /** @type {?} */
                 var boxParent = this.createDialogBox(parentNode, (position !== 'fixed'));
                 this.top = boxDirective.top - boxParent.top;
+                this.offsetTop = boxDirective.topOffset;
                 this.left = boxDirective.left - boxParent.left;
+                this.offsetLeft = boxDirective.leftOffset;
             }
             if (position === 'fixed') {
                 this.position = 'fixed';
@@ -1871,10 +1875,12 @@ var ColorPickerComponent = /** @class */ (function () {
                 /** @type {?} */
                 var winHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
                 /** @type {?} */
+                var appWidth = Math.min(winWidth, node.offsetWidth ? node.offsetWidth : node.querySelector("body").offsetWidth);
+                /** @type {?} */
                 var usePositionX = 'right';
-                if ((this.left + boxDirective.width + this.dialogArrowSize - 2) + this.cpWidth > winWidth) {
-                    if ((this.left - this.cpWidth + this.dialogArrowSize - 2) < 0) {
-                        this.left -= ((this.left + boxDirective.width + this.dialogArrowSize - 2) + this.cpWidth) - winWidth;
+                if ((this.left + boxDirective.width + this.dialogArrowSize - 2) + this.cpWidth + this.offsetLeft > appWidth) {
+                    if ((this.left - this.cpWidth + this.dialogArrowSize - 2 + this.offsetLeft) < 0) {
+                        this.left -= ((this.left + boxDirective.width + this.dialogArrowSize - 2) + this.cpWidth) - appWidth;
                     }
                     else {
                         usePositionX = 'left';
@@ -1882,8 +1888,8 @@ var ColorPickerComponent = /** @class */ (function () {
                 }
                 /** @type {?} */
                 var usePositionY = 'bottom';
-                if ((this.top + boxDirective.height * this.cpPositionOffset / 100) + dialogHeight > winHeight) {
-                    if ((this.top - dialogHeight - boxDirective.height + boxDirective.height * this.cpPositionOffset / 100) < 0) {
+                if ((this.top + boxDirective.height * this.cpPositionOffset / 100) + dialogHeight + this.offsetTop > winHeight) {
+                    if ((this.top - dialogHeight - boxDirective.height + boxDirective.height * this.cpPositionOffset / 100 + this.offsetTop) < 0) {
                         this.top -= ((this.top + boxDirective.height * this.cpPositionOffset / 100) + dialogHeight) - winHeight;
                     }
                     else {
@@ -1951,9 +1957,13 @@ var ColorPickerComponent = /** @class */ (function () {
      * @return {?}
      */
     function (element, offset) {
+        /** @type {?} */
+        var appRoot = document.querySelector("ngx-app");
         return {
-            top: element.getBoundingClientRect().top + (offset ? window.pageYOffset : 0),
-            left: element.getBoundingClientRect().left + (offset ? window.pageXOffset : 0),
+            top: element.getBoundingClientRect().top - (appRoot ? appRoot.getBoundingClientRect().top : 0 + (offset ? window.pageYOffset : 0)),
+            topOffset: appRoot ? appRoot.getBoundingClientRect().top : 0,
+            left: element.getBoundingClientRect().left - (appRoot ? appRoot.getBoundingClientRect().left : 0 + (offset ? window.pageXOffset : 0)),
+            leftOffset: appRoot ? appRoot.getBoundingClientRect().left : 0,
             width: element.offsetWidth,
             height: element.offsetHeight
         };

@@ -28,7 +28,9 @@ export declare class ColorPickerComponent implements OnInit, OnDestroy, AfterVie
     show: boolean;
     hidden: boolean;
     top: number;
+    offsetTop: number;
     left: number;
+    offsetLeft: number;
     position: string;
     format: ColorFormats;
     slider: SliderPosition;
